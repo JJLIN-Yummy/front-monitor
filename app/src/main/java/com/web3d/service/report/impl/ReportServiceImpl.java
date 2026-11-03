@@ -20,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
@@ -47,6 +49,8 @@ public class ReportServiceImpl implements ReportService {
     @Override
     @Transactional
     public void report(ReportDto reportDto) {
+        //todo: 注意单向数据流
+        reportDto.setFingerprint(this.genErrorSign(reportDto.getErrorType(),reportDto.getErrorMsg()));
         //1.1检查是否存在projectId
         MonitorProjectPo monitorProjectPo = new MonitorProjectPo();
         monitorProjectPo.setProjectId(reportDto.getProjectId());
@@ -128,6 +132,18 @@ public class ReportServiceImpl implements ReportService {
             throw new BusinessException(ResultCodeEnum.NOT_EXIST,"projectId");
         }
         return monitorProjectPo.getProjectId().equals(monitorProjectPoFromDb.getProjectId());
+    }
+
+
+    /**
+     * 根据 errorType + errorMsg 生成错误唯一标识 sign，用于错误聚合、去重
+     */
+    public String genErrorSign(String errorType, String errorMsg) {
+        if (errorType == null) errorType = "";
+        if (errorMsg == null) errorMsg = "";
+        // 分隔符 | 防止拼接歧义：a|bc 和 ab|c 区分开
+        String raw = errorType + "|" + errorMsg;
+        return DigestUtils.md5DigestAsHex(raw.getBytes(StandardCharsets.UTF_8));
     }
 
 
