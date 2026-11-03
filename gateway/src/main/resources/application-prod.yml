@@ -17,7 +17,7 @@ spring:
             - id: monitor-report
               uri: http://127.0.0.1:8888
               predicates:
-                - Path=/api/****
+                - Path=/api/****, /api/monitor/**
 
   #配置redis信息
   data:
