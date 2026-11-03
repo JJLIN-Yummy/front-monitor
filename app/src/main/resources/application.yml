@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: front-monitor
+  profiles:
+    active: dev #激活application-dev配置文件

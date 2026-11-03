@@ -1,0 +1,36 @@
+server:
+  port: 8889
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowed-origins: "*"
+                allowed-methods: "*"
+                allowed-headers: "*"
+                allow-credentials: false
+          routes:
+            - id: monitor-report
+              uri: http://127.0.0.1:8888
+              predicates:
+                - Path=/api/****
+
+  #配置redis信息
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: Redis@123456
+      # username: default  咱们没开ACL，注释掉，不要写
+      database: 0
+      timeout: 50000ms
+      lettuce:
+        pool:
+          max-active: 5
+          max-idle: 4
+          min-idle: 1
+          max-wait: 50000ms

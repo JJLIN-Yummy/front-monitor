@@ -1,0 +1,23 @@
+POST http://106.55.26.5:8889/api/login HTTP/1.1
+Content-Type: application/json
+X-Real-IP: 127.0.0.2
+
+{
+  "userPhone": "19120595267",
+  "userPassword": "123456"
+}
+
+###
+
+POST http://106.55.26.5:8888/api/signup HTTP/1.1
+Content-Type: application/json
+
+{
+"userPhone": "19120595267",
+"userPassword": "123456",
+  "userName": "林俊杰",
+  "userEmail": "1623556440@qq.com"
+}
+
+###
+GET http://127.0.0.1:8888/api/health HTTP/1.1
