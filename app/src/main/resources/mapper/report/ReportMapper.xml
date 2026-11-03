@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web3d.mapper.ReportMapper">
+
+    <select id="searchMonitorErrorFingerprint" resultType="com.web3d.entity.po.MonitorErrorFingerprintPo">
+        SELECT *
+        FROM  monitor_error_fingerprint
+        WHERE project_id = #{projectId} AND project_version = #{projectVersion} AND env = #{env}
+                AND fingerprint = #{fingerprint} AND fingerprint_type = #{fingerprintType}
+                AND is_valid = 1
+    </select>
+
+    <select id="searchMonitorSourcemap" resultType="com.web3d.entity.po.MonitorSourcemapPo">
+        SELECT *
+        FROM monitor_sourcemap
+        WHERE project_id = #{projectId} AND project_version = #{projectVersion} AND env = #{env}
+          AND is_valid = 1
+    </select>
+
+    <select id="searchMonitorProject" resultType="com.web3d.entity.po.MonitorProjectPo">
+        SELECT *
+        FROM monitor_project
+        <where>
+            <!-- 默认必须是有效状态 -->
+            AND is_valid = 1
+
+            <!-- 动态拼接前端传过来的条件 -->
+            <if test="projectId != null and projectId != ''">
+                AND project_id = #{projectId}
+            </if>
+            <if test="projectVersion != null and projectVersion != ''">
+                AND project_version = #{projectVersion}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateMonitorErrorLog" parameterType="com.web3d.entity.po.MonitorErrorLogPo">
+        UPDATE monitor_error_log
+        <set>
+            <if test="projectId != null and projectId != ''">project_id = #{projectId},</if>
+            <if test="projectVersion != null and projectVersion != ''">project_version = #{projectVersion},</if>
+            <if test="env != null and env != ''">env = #{env},</if>
+            <if test="errorType != null and errorType != ''">error_type = #{errorType},</if>
+            <if test="errorMsg != null and errorMsg != ''">error_msg = #{errorMsg},</if>
+            <if test="stack != null and stack != ''">stack = #{stack},</if>
+            <if test="pageUrl != null and pageUrl != ''">page_url = #{pageUrl},</if>
+            <if test="routePath != null and routePath != ''">route_path = #{routePath},</if>
+            <if test="userIdentify != null and userIdentify != ''">user_identify = #{userIdentify},</if>
+            <if test="browser != null and browser != ''">browser = #{browser},</if>
+            <if test="os != null and os != ''">os = #{os},</if>
+            <if test="device != null and device != ''">device = #{device},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="fingerprint != null and fingerprint != ''">fingerprint = #{fingerprint},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateMonitorErrorFingerprint" parameterType="com.web3d.entity.po.MonitorErrorFingerprintPo">
+        UPDATE monitor_error_fingerprint
+        <set>
+            <if test="fingerprintType != null and fingerprintType != ''">fingerprint_type = #{fingerprintType},</if>
+            <if test="errorType != null and errorType != ''">error_type = #{errorType},</if>
+            <if test="errorMsg != null and errorMsg != ''">error_msg = #{errorMsg},</if>
+            <if test="lastOccurTime != null">last_occur_time = #{lastOccurTime},</if>
+            <if test="sourcemapFile != null and sourcemapFile != ''">sourcemap_file = #{sourcemapFile},</if>
+            <if test="isResolved != null">is_resolved = #{isResolved},</if>
+            <if test="resolveTime != null">resolve_time = #{resolveTime},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="sdkType != null and sdkType != ''">sdk_type = #{sdkType},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="fingerprint != null and fingerprint != ''">fingerprint = #{fingerprint},</if>
+            <if test="count != null ">count = #{count},</if>
+            </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateMonitorSourcemap" parameterType="com.web3d.entity.po.MonitorSourcemapPo">
+        UPDATE monitor_sourcemap
+        <set>
+            <if test="env != null and env != ''">env = #{env},</if>
+            <if test="projectVersion != null and projectVersion != ''">project_version = #{projectVersion},</if>
+            <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+            <if test="ossPath != null and ossPath != ''">oss_path = #{ossPath},</if>
+            <if test="uploadTime != null">upload_time = #{uploadTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateMonitorProject" parameterType="com.web3d.entity.po.MonitorProjectPo">
+        UPDATE monitor_project
+        <set>
+            <if test="projectId != null and projectId != ''">project_id = #{projectId},</if>
+            <if test="projectVersion != null and projectVersion != ''">project_version = #{projectVersion},</if>
+            <if test="projectName != null and projectName != ''">project_name = #{projectName},</if>
+            <if test="owner != null and owner != ''">owner = #{owner},</if>
+            <if test="contact != null and contact != ''">contact = #{contact},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateMonitorErrorAlert" parameterType="com.web3d.entity.po.MonitorErrorAlertPo">
+        UPDATE monitor_error_alert
+        <set>
+            <if test="projectId != null and projectId != ''">project_id = #{projectId},</if>
+            <if test="projectVersion != null and projectVersion != ''">project_version = #{projectVersion},</if>
+            <if test="env != null and env != ''">env = #{env},</if>
+            <if test="fingerprint != null and fingerprint != ''">fingerprint = #{fingerprint},</if>
+            <if test="alertContent != null and alertContent != ''">alert_content = #{alertContent},</if>
+            <if test="alertTime != null">alert_time = #{alertTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+    <insert id="insertMonitorErrorLog" parameterType="com.web3d.entity.po.MonitorErrorLogPo">
+        INSERT INTO monitor_error_log (
+            id, project_id, project_version,env, fingerprint, error_type, error_msg,
+            stack, page_url, route_path, user_identify, browser, os, device, update_time
+        )
+        VALUES (
+                #{id}, #{projectId}, #{projectVersion}, #{env}, #{fingerprint}, #{errorType},
+                #{errorMsg}, #{stack}, #{pageUrl}, #{routePath}, #{userIdentify}, #{browser},
+                #{os}, #{device}, #{updateTime}
+        )
+    </insert>
+
+    <insert id="insertMonitorErrorAlert" parameterType="com.web3d.entity.po.MonitorErrorAlertPo">
+        INSERT INTO monitor_error_alert (
+            id, project_id, project_version, env, fingerprint, alert_content, alert_time,update_time
+        )
+        VALUES (#{id}, #{projectId}, #{projectVersion}, #{env}, #{fingerprint}, #{alertContent}, #{alertTime}, #{updateTime})
+    </insert>
+
+
+
+    <insert id="insertMonitorErrorFingerprint" parameterType="com.web3d.entity.po.MonitorErrorFingerprintPo">
+        INSERT INTO monitor_error_fingerprint (
+            id, project_id, project_version, env, fingerprint, fingerprint_type, error_type,count,
+            error_msg, first_occur_time, last_occur_time, sourcemap_file, is_resolved,
+            resolve_time, level, remark, sdk_type, update_time
+        )
+        VALUES (
+            #{id}, #{projectId}, #{projectVersion}, #{env}, #{fingerprint}, #{fingerprintType},
+            #{errorType}, #{count},#{errorMsg}, #{firstOccurTime}, #{lastOccurTime},
+            #{sourcemapFile}, #{isResolved}, #{resolveTime}, #{level}, #{remark},
+            #{sdkType}, #{updateTime}
+        )
+    </insert>
+
+    <insert id="insertMonitorProject" parameterType="com.web3d.entity.po.MonitorProjectPo">
+        INSERT INTO monitor_project (
+            id, project_id, project_version, project_name, owner, contact, update_time
+        )
+        VALUES (
+            #{id}, #{projectId}, #{projectVersion}, #{projectName}, #{owner}, #{contact}, #{updateTime}
+        )
+    </insert>
+    <insert id="insertMonitorSourcemap" parameterType="com.web3d.entity.po.MonitorSourcemapPo">
+        INSERT INTO monitor_sourcemap (
+            id, project_id, env, project_version, file_name, oss_path, upload_time,update_time
+        )
+        VALUES (
+            #{id}, #{projectId}, #{env}, #{projectVersion}, #{fileName}, #{ossPath}, #{uploadTime}, #{updateTime}
+        )
+    </insert>
+</mapper>

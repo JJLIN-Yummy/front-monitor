@@ -1,0 +1,23 @@
+POST http://127.0.0.1:8889/api/monitor/report HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiLmnpfkv4rmnbAiLCJleHAiOjE3OTM2NjgzMDB9.cFIHHcOQzMgSumOXzrU8dcX7Mj-EwV_qRa4LB23Z2Uw
+X-Real-IP: 127.0.0.2
+
+{
+  "projectId": "ai-explore-app",
+  "env": "prod",
+  "errorType": "js_error",
+  "errorMsg": "TypeError: Cannot read properties of undefined (reading 'map')",
+  "stack": "TypeError: Cannot read properties of undefined (reading 'map')\n    at UserList.render (https://xxx.com/static/js/main.3f8a2b.js:1:2345)\n    at ReactDOM.render (https://xxx.com/static/js/vendor.1a2b3c.js:2:5432)",
+  "pageUrl": "https://106.55.26.5:80/dashboard/user-list?id=123",
+  "routePath": "/dashboard/user-list",
+  "userIdentify": "user_888888",
+  "browser": "Chrome 128.0.0.0",
+  "os": "Windows 10 (64-bit)",
+  "device": "pc",
+  "projectVersion": "1.0.2",
+  "sdkType": "WEB",
+  "fingerprint": "SADASDASD",
+  "fingerprintType": "web_canvas",
+  "level": "1"
+}
